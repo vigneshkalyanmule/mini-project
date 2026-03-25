@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Pastel Dreams</title>
+    <style>
+        :root {
+            --pink: #FFD1DC;
+            --blue: #ADD8E6;
+            --green: #90EE90;
+            --yellow: #FFFFE0;
+            --purple: #E6E6FA;
+            --text: #333333;
+            --light: #777777;
+            --primary: #f8b5d1;
+            --secondary: #a3b1d9; /* Adjusted for better pastel feel */
+            --background: #fff9fb;
+            --accent: #ffd166;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 0;
+            background-color: var(--background);
+            color: var(--text);
+        }
+        header {
+            background: var(--purple);
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+        nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        nav a:hover {
+            color: var(--primary);
+        }
+        .active {
+            background: var(--blue);
+            color: white !important;
+            padding: 0.4rem 0.8rem;
+            border-radius: 5px;
+        }
+        .main-content {
+            padding-top: 100px; /* Account for fixed header */
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: var(--light);
+            margin-bottom: 20px;
+        }
+        .breadcrumb a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .breadcrumb a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+        .product-detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        .product-image-gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #main-img {
+            width: 100%;
+            max-width: 500px;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px solid var(--pink);
+        }
+        .thumbnail-container {
+            display: flex;
+            gap: 10px;
+        }
+        .thumb-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+        .thumb-img:hover, .thumb-img.active {
+            border-color: var(--primary);
+        }
+        .product-info-section {
+            display: flex;
+            flex-direction: column;
+        }
+        .product-info-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        .rating {
+            color: var(--accent);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .rating span {
+            color: var(--light);
+            font-size: 0.9rem;
+        }
+        .product-price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        .description {
+            font-size: 1rem;
+            color: var(--light);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        .quantity-selector button {
+            background: var(--blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: 35px;
+            height: 35px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .quantity-selector button:hover {
+            background: #9ac0d9;
+        }
+        #qty-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            min-width: 30px;
+            text-align: center;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .add-cart-btn {
+            background-color: var(--green);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .add-cart-btn:hover {
+            background-color: #8fbc8f;
+            transform: translateY(-2px);
+        }
+        .wishlist-btn {
+            background-color: transparent;
+            color: var(--primary);
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: 2px solid var(--primary);
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+        }
+        .wishlist-btn:hover {
+            background-color: var(--pink);
+            color: white;
+            transform: translateY(-2px);
+        }
+        .related-products {
+            margin-top: 50px;
+            text-align: center;
+        }
+        .related-products h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--text);
+        }
+        .related-product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        .related-product-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .related-product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .related-product-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+        .related-product-card-info {
+            padding: 15px;
+        }
+        .related-product-card-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        .related-product-card-info .price {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        footer {
+            background-color: var(--purple);
+            color: var(--text);
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 0.9rem;
+            margin-top: 50px;
+        }
+        footer a {
+            color: var(--text);
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: var(--primary);
+        }
+        .social-icons a {
+            font-size: 1.5rem;
+            margin: 0 10px;
+            color: var(--light);
+        }
+        .social-icons a:hover {
+            color: var(--primary);
+        }
+        /* Chatbot Widget */
+        .chatbot-bubble {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            z-index: 1001;
+            transition: transform 0.3s ease;
+        }
+        .chatbot-bubble:hover {
+            transform: scale(1.1);
+        }
+        .chatbot-box {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 300px;
+            height: 400px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        .chatbot-header {
+            background: var(--purple);
+            padding: 10px;
+            color: var(--text);
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+        .chatbot-header span {
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .chatbot-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: var(--background);
+            display: flex;
+            flex-direction: column;
+        }
+        .chatbot-input-area {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #eee;
+            background: white;
+        }
+        #chatbot-input {
+            flex-grow: 1;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 8px;
+            margin-right: 8px;
+            font-family: inherit;
+        }
+        #chatbot-send {
+            background: var(--green);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #chatbot-send:hover {
+            background: #8fbc8f;
+        }
+        /* Toast Notification */
+        #toast-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+        }
+        .toast {
+            background: #90EE90; /* Default to green */
+            color: #333;
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            font-size: 0.95rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            margin-bottom: 10px; /* Spacing between toasts */
+        }
+        .toast.show {
+            opacity: 1;
+        }
+        .toast.error {
+            background: #FFD1DC; /* Pink for errors */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">🌸 Pastel Dreams</div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="cart.html">🛒 Cart <span id="cart-count" style="background:#FFD1DC; border-radius:50%; padding:1px 6px; font-size:0.8rem; font-weight:bold;">0</span></a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> &gt;
+            <a href="products.html">Products</a> &gt;
+            <span id="product-name-breadcrumb">Product Name</span>
+        </div>
+
+        <div class="product-detail-container">
+            <div class="product-image-gallery">
+                <img id="main-img" src="https://picsum.photos/500/400?random=20" alt="Main Product Image">
+                <div class="thumbnail-container">
+                    <img class="thumb-img active" src="https://picsum.photos/80/80?random=20" alt="Thumbnail 1">
+                    <img class="thumb-img" src="https://picsum.photos/80/80?random=21" alt="Thumbnail 2">
+                    <img class="thumb-img" src="https://picsum.photos/80/80?random=22" alt="Thumbnail 3">
+                </div>
+            </div>
+            <div class="product-info-section">
+                <h1 id="detail-name">Product Name</h1>
+                <div class="rating">
+                    ★★★★☆
+                    <span>(4.2 / 128 reviews)</span>
+                </div>
+                <p class="product-price">$12.99</p>
+                <p class="description">This is a detailed description of the product. It's made with high-quality materials and designed to bring a smile to your face. Perfect for adding a touch of pastel charm to your life.</p>
+
+                <div class="quantity-selector">
+                    <button id="qty-minus">-</button>
+                    <span id="qty-value">1</span>
+                    <button id="qty-plus">+</button>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="detail-add-cart" class="add-cart-btn">Add to Cart</button>
+                    <button id="wishlist-btn" class="wishlist-btn">♡ Add to Wishlist</button>
+                </div>
+            </div>
+        </div>
+
+        <section class="related-products">
+            <h2>Related Products</h2>
+            <div class="related-product-grid">
+                <!-- Related products will be loaded here by JS -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-pinterest"></i></a>
+        </div>
+        <p>&copy; 2026 Pastel Dreams. All rights reserved.</p>
+        <p>
+            <a href="index.html">Home</a> |
+            <a href="products.html">Products</a> |
+            <a href="cart.html">Cart</a> |
+            <a href="login.html">Login</a>
+        </p>
+    </footer>
+
+    <div id="chat-bubble" class="chatbot-bubble">💬</div>
+    <div id="chatbot-box" class="chatbot-box">
+        <div class="chatbot-header">
+            <span>Chat with Us!</span>
+            <span id="chatbot-close">✖</span>
+        </div>
+        <div id="chatbot-messages" class="chatbot-messages"></div>
+        <div class="chatbot-input-area">
+            <input type="text" id="chatbot-input" placeholder="Type your message...">
+            <button id="chatbot-send">Send</button>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script>
+        // Shared cart using localStorage
+        let cart = JSON.parse(localStorage.getItem('pastelCart')) || [];
+        let currentProductId = '';
+        let allProducts = [ // Sample product data, should match products.html
+            { id: 'mug1', name: 'Dreamy Mug', price: 12.99, category: 'mug', img: 'https://picsum.photos/400/300?random=1', rating: 4.5, imgDetail: 'https://picsum.photos/500/400?random=20', thumbs: ['https://picsum.photos/80/80?random=20', 'https://picsum.photos/80/80?random=21', 'https://picsum.photos/80/80?random=22'] },
+            { id: 'pillow1', name: 'Cloud Pillow', price: 25.50, category: 'pillow', img: 'https://picsum.photos/400/300?random=2', rating: 4.2, imgDetail: 'https://picsum.photos/500/400?random=23', thumbs: ['https://picsum.photos/80/80?random=23', 'https://picsum.photos/80/80?random=24', 'https://picsum.photos/80/80?random=25'] },
+            { id: 'notebook1', name: 'Rainbow Notebook', price: 8.00, category: 'notebook', img: 'https://picsum.photos/400/300?random=3', rating: 4.7, imgDetail: 'https://picsum.photos/500/400?random=26', thumbs: ['https://picsum.photos/80/80?random=26', 'https://picsum.photos/80/80?random=27', 'https://picsum.photos/80/80?random=28'] },
+            { id: 'pen1', name: 'Sparkle Pen', price: 5.99, category: 'pen', img: 'https://picsum.photos/400/300?random=4', rating: 4.0, imgDetail: 'https://picsum.photos/500/400?random=29', thumbs: ['https://picsum.photos/80/80?random=29', 'https://picsum.photos/80/80?random=30', 'https://picsum.photos/80/80?random=31'] },
+            { id: 'mug2', name: 'Star Mug', price: 14.99, category: 'mug', img: 'https://picsum.photos/400/300?random=5', rating: 4.3, imgDetail: 'https://picsum.photos/500/400?random=32', thumbs: ['https://picsum.photos/80/80?random=32', 'https://picsum.photos/80/80?random=33', 'https://picsum.photos/80/80?random=34'] },
+            { id: 'pillow2', name: 'Fluffy Cushion', price: 22.00, category: 'pillow', img: 'https://picsum.photos/400/300?random=6', rating: 4.6, imgDetail: 'https://picsum.photos/500/400?random=35', thumbs: ['https://picsum.photos/80/80?random=35', 'https://picsum.photos/80/80?random=36', 'https://picsum.photos/80/80?random=37'] },
+            { id: 'notebook2', name: 'Glitter Notebook', price: 9.50, category: 'notebook', img: 'https://picsum.photos/400/300?random=7', rating: 4.1, imgDetail: 'https://picsum.photos/500/400?random=38', thumbs: ['https://picsum.photos/80/80?random=38', 'https://picsum.photos/80/80?random=39', 'https://picsum.photos/80/80?random=40'] },
+            { id: 'pen2', name: 'Pastel Pen Set', price: 7.99, category: 'pen', img: 'https://picsum.photos/400/300?random=8', rating: 4.4, imgDetail: 'https://picsum.photos/500/400?random=41', thumbs: ['https://picsum.photos/80/80?random=41', 'https://picsum.photos/80/80?random=42', 'https://picsum.photos/80/80?random=43'] },
+            { id: 'mug3', name: 'Unicorn Mug', price: 16.99, category: 'mug', img: 'https://picsum.photos/400/300?random=9', rating: 4.8, imgDetail: 'https://picsum.photos/500/400?random=44', thumbs: ['https://picsum.photos/80/80?random=44', 'https://picsum.photos/80/80?random=45', 'https://picsum.photos/80/80?random=46'] },
+            { id: 'pillow3', name: 'Dream Pillow', price: 28.00, category: 'pillow', img: 'https://picsum.photos/400/300?random=10', rating: 4.3, imgDetail: 'https://picsum.photos/500/400?random=47', thumbs: ['https://picsum.photos/80/80?random=47', 'https://picsum.photos/80/80?random=48', 'https://picsum.photos/80/80?random=49'] },
+            { id: 'notebook3', name: 'Floral Notebook', price: 11.00, category: 'notebook', img: 'https://picsum.photos/400/300?random=11', rating: 4.6, imgDetail: 'https://picsum.photos/500/400?random=50', thumbs: ['https://picsum.photos/80/80?random=50', 'https://picsum.photos/80/80?random=51', 'https://picsum.photos/80/80?random=52'] },
+            { id: 'pen3', name: 'Color Pen', price: 6.50, category: 'pen', img: 'https://picsum.photos/400/300?random=12', rating: 4.2, imgDetail: 'https://picsum.photos/500/400?random=53', thumbs: ['https://picsum.photos/80/80?random=53', 'https://picsum.photos/80/80?random=54', 'https://picsum.photos/80/80?random=55'] }
+        ];
+
+        function saveCart() {
+            localStorage.setItem('pastelCart', JSON.stringify(cart));
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            const total = cart.reduce((s, i) => s + i.qty, 0);
+            const el = document.getElementById('cart-count');
+            if (el) {
+                el.textContent = total;
+                el.style.background = total > 0 ? '#90EE90' : '#FFD1DC';
+            }
+        }
+
+        function addToCart(id, name, price, img) {
+            const ex = cart.find(i => i.id === id);
+            if (ex) {
+                ex.qty++;
+            } else {
+                cart.push({ id, name, price, qty: 1, img: img || `https://picsum.photos/80/80?random=${id}` });
+            }
+            saveCart();
+            showToast('✓ ' + name + ' added to cart!');
+        }
+
+        function showToast(msg, type = 'success') {
+            const toastContainer = document.getElementById('toast-container');
+            const t = document.createElement('div');
+            t.textContent = msg;
+            t.className = 'toast';
+            if (type === 'error') {
+                t.classList.add('error');
+            }
+            toastContainer.appendChild(t);
+            setTimeout(() => {
+                t.classList.add('show');
+            }, 10);
+            setTimeout(() => {
+                t.classList.remove('show');
+                t.addEventListener('transitionend', () => t.remove());
+            }, 2500);
+        }
+
+        function changeQuantity(delta) {
+            let qty = parseInt(document.getElementById('qty-value').textContent);
+            qty += delta;
+            if (qty < 1) qty = 1;
+            document.getElementById('qty-value').textContent = qty;
+        }
+
+        function displayRelatedProducts(currentProductCategory) {
+            const relatedGrid = document.querySelector('.related-product-grid');
+            relatedGrid.innerHTML = ''; // Clear existing
+
+            const related = allProducts
+                .filter(p => p.category === currentProductCategory && p.id !== currentProductId)
+                .slice(0, 3); // Get up to 3 related products
+
+            related.forEach(product => {
+                const card = document.createElement('div');
+                card.classList.add('related-product-card');
+                card.innerHTML = `
+                    <img src="https://picsum.photos/400/300?random=20" alt="${product.name}">
+                    <div class="related-product-card-info">
+                        <h3>${product.name}</h3>
+                        <p class="price">$${product.price.toFixed(2)}</p>
+                    </div>
+                `;
+                card.addEventListener('click', () => {
+                    window.location.href = `product-detail.html?id=${product.id}`;
+                });
+                relatedGrid.appendChild(card);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartCount();
+
+            // Mark active nav link
+            const page = location.pathname.split('/').pop() || 'index.html';
+            document.querySelectorAll('nav a').forEach(a => {
+                if (a.getAttribute('href') === page) {
+                    a.classList.add('active');
+                } else {
+                    a.classList.remove('active');
+                }
+            });
+
+            // Get product ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            currentProductId = urlParams.get('id');
+
+            const product = allProducts.find(p => p.id === currentProductId);
+
+            if (product) {
+                document.getElementById('detail-name').textContent = product.name;
+                document.getElementById('product-name-breadcrumb').textContent = product.name;
+                document.getElementById('detail-price').textContent = `$${product.price.toFixed(2)}`;
+                document.querySelector('.description').textContent = product.description || `A delightful ${product.name.toLowerCase()} with charming pastel colors. Perfect for adding a touch of magic to your day.`;
+                document.getElementById('main-img').src = product.imgDetail || product.img; // Use specific detail image if available
+
+                // Set thumbnails
+                const thumbContainer = document.querySelector('.thumbnail-container');
+                thumbContainer.innerHTML = ''; // Clear existing
+                const mainImgElement = document.getElementById('main-img');
+                const thumbs = product.thumbs || [product.img, product.img, product.img]; // Fallback thumbs
+
+                thumbs.forEach((thumbSrc, index) => {
+                    const img = document.createElement('img');
+                    img.src = thumbSrc;
+                    img.classList.add('thumb-img');
+                    if (index === 0) img.classList.add('active');
+                    img.alt = `Thumbnail ${index + 1}`;
+                    img.addEventListener('click', () => {
+                        mainImgElement.src = thumbSrc;
+                        document.querySelectorAll('.thumb-img').forEach(t => t.classList.remove('active'));
+                        img.classList.add('active');
+                    });
+                    thumbContainer.appendChild(img);
+                });
+
+                // Add to cart button logic
+                document.getElementById('detail-add-cart').addEventListener('click', () => {
+                    const qty = parseInt(document.getElementById('qty-value').textContent);
+                    for(let i = 0; i < qty; i++) {
+                        addToCart(product.id, product.name, product.price, product.img);
+                    }
+                    showToast(`Added ${qty}x ${product.name} to cart!`);
+                });
+
+                // Quantity selector
+                document.getElementById('qty-minus').addEventListener('click', () => changeQuantity(-1));
+                document.getElementById('qty-plus').addEventListener('click', () => changeQuantity(1));
+
+                // Display related products
+                displayRelatedProducts(product.category);
+
+            } else {
+                // Handle product not found
+                document.querySelector('.product-detail-container').innerHTML = '<p>Product not found. Please go back to the <a href="products.html">Products page</a>.</p>';
+            }
+
+            // Chatbot Widget
+            const chatBubble  = document.getElementById('chat-bubble');
+            const chatBox     = document.getElementById('chatbot-box');
+            const chatClose   = document.getElementById('chatbot-close');
+            const chatSend    = document.getElementById('chatbot-send');
+            const chatInput   = document.getElementById('chatbot-input');
+            const chatMsgs    = document.getElementById('chatbot-messages');
+
+            if (chatBubble) chatBubble.addEventListener('click', () => {
+                chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
+                if (chatBox.style.display === 'flex') {
+                    chatInput.focus();
+                }
+            });
+            if (chatClose)  chatClose.addEventListener('click',  () => chatBox.style.display = 'none');
+            if (chatSend)   chatSend.addEventListener('click', sendChat);
+            if (chatInput)  chatInput.addEventListener('keypress', e => { if(e.key === 'Enter') sendChat(); });
+
+            function sendChat() {
+                const msg = chatInput?.value.trim();
+                if (!msg) return;
+                addChatMsg('user', msg);
+                chatInput.value = '';
+                setTimeout(() => addChatMsg('bot', getBotReply(msg)), 700);
+                chatMsgs.scrollTop = chatMsgs.scrollHeight;
+            }
+
+            function addChatMsg(who, text) {
+                const d = document.createElement('div');
+                d.textContent = text;
+                d.style.cssText = `margin-bottom:10px;padding:10px 14px;border-radius:18px;max-width:80%;font-size:0.9rem;word-wrap:break-word;`;
+                if (who === 'user') {
+                    d.style.cssText += `background:var(--green);margin-left:auto;color:var(--text);border-bottom-right-radius:4px;`;
+                } else {
+                    d.style.cssText += `background:var(--purple);margin-right:auto;color:var(--text);border-bottom-left-radius:4px;`;
+                }
+                if (chatMsgs) {
+                    chatMsgs.appendChild(d);
+                    chatMsgs.scrollTop = chatMsgs.scrollHeight;
+                }
+            }
+
+            function getBotReply(msg) {
+                const m = msg.toLowerCase();
+                if (m.includes('hi') || m.includes('hello') || m.includes('hey')) return 'Hello! 🌸 Welcome to Pastel Dreams! How can I help you today?';
+                if (m.includes('product') || m.includes('shop') || m.includes('buy')) return 'We have beautiful mugs, pillows, notebooks and more! Visit our Products page to see everything! 🛍';
+                if (m.includes('cart') || m.includes('bag')) return 'Click the 🛒 Cart link in the top navbar to view your cart!';
+                if (m.includes('promo') || m.includes('discount') || m.includes('code')) return 'Use code DREAM10 at checkout for 10% off your order! 🎉';
+                if (m.includes('ship') || m.includes('deliver')) return 'We offer FREE shipping on orders over $50! Standard shipping is just $5.99 💕';
+                if (m.includes('login') || m.includes('account')) return 'Click the Login button in the navbar. Use OTP code 123456 for demo!';
+                if (m.includes('return') || m.includes('refund')) return 'We have a hassle-free 30-day return policy. Contact us at support@pasteldreams.com!';
+                return "Thanks for your message! 💕 Our team will get back to you soon. Is there anything else I can help with?";
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pastel Dreams - Homepage</title>
+    <style>
+        :root {
+            --pink: #FFD1DC;
+            --blue: #ADD8E6;
+            --green: #90EE90;
+            --yellow: #FFFFE0;
+            --purple: #E6E6FA;
+            --text: #333333;
+            --light: #777777;
+            --primary: #f8b5d1;
+            --secondary: #a3b1d9; /* Adjusted for better pastel feel */
+            --background: #fff9fb;
+            --accent: #ffd166;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 0;
+            background-color: var(--background);
+            color: var(--text);
+            scroll-behavior: smooth;
+        }
+        header {
+            background: var(--purple);
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+        nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        nav a:hover {
+            color: var(--primary);
+        }
+        .active {
+            background: var(--blue);
+            color: white !important;
+            padding: 0.4rem 0.8rem;
+            border-radius: 5px;
+        }
+        .hero {
+            background-color: var(--blue);
+            color: white;
+            text-align: center;
+            padding: 100px 20px 80px;
+            margin-top: 70px; /* To account for fixed header */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 60vh;
+            background-image: url('https://source.unsplash.com/1400x600/?pastel,modern');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(173, 216, 230, 0.7); /* Pastel blue overlay */
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+        }
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+        }
+        .cta-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .cta-button:hover {
+            background-color: #e6a0b9;
+            transform: translateY(-2px);
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 50px 20px;
+            max-width: 1200px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .feature-card {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--blue);
+            margin-bottom: 15px;
+        }
+        .feature-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .feature-card p {
+            font-size: 0.9rem;
+            color: var(--light);
+            margin: 0;
+        }
+        .featured-products {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .featured-products h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--text);
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid #eee;
+        }
+        .product-info {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .product-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .product-info .price {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        .add-to-cart-btn {
+            background-color: var(--green);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: auto; /* Pushes button to bottom */
+            display: inline-block; /* Needed for transform */
+            width: fit-content; /* Adjust width to content */
+            align-self: center; /* Center horizontally */
+        }
+        .add-to-cart-btn:hover {
+            background-color: #8fbc8f;
+            transform: translateY(-2px);
+        }
+        .view-all-btn {
+            background-color: var(--light);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 40px auto 0;
+            display: block;
+            width: fit-content;
+        }
+        .view-all-btn:hover {
+            background-color: var(--text);
+            transform: translateY(-2px);
+        }
+        .about-section {
+            background-color: var(--yellow);
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .about-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+        .about-section p {
+            font-size: 1.1rem;
+            color: var(--light);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        footer {
+            background-color: var(--purple);
+            color: var(--text);
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 0.9rem;
+        }
+        footer a {
+            color: var(--text);
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: var(--primary);
+        }
+        .social-icons a {
+            font-size: 1.5rem;
+            margin: 0 10px;
+            color: var(--light);
+        }
+        .social-icons a:hover {
+            color: var(--primary);
+        }
+        /* Chatbot Widget */
+        .chatbot-bubble {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            z-index: 1001;
+            transition: transform 0.3s ease;
+        }
+        .chatbot-bubble:hover {
+            transform: scale(1.1);
+        }
+        .chatbot-box {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 300px;
+            height: 400px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        .chatbot-header {
+            background: var(--purple);
+            padding: 10px;
+            color: var(--text);
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+        .chatbot-header span {
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .chatbot-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: var(--background);
+            display: flex;
+            flex-direction: column;
+        }
+        .chatbot-input-area {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #eee;
+            background: white;
+        }
+        #chatbot-input {
+            flex-grow: 1;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 8px;
+            margin-right: 8px;
+            font-family: inherit;
+        }
+        #chatbot-send {
+            background: var(--green);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #chatbot-send:hover {
+            background: #8fbc8f;
+        }
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #90EE90; /* Default to green */
+            color: #333;
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-weight: bold;
+            z-index: 9999;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            font-size: 0.95rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+        .toast.error {
+            background: #FFD1DC; /* Pink for errors */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">🌸 Pastel Dreams</div>
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="cart.html">🛒 Cart <span id="cart-count" style="background:#FFD1DC; border-radius:50%; padding:1px 6px; font-size:0.8rem; font-weight:bold;">0</span></a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Welcome to Pastel Dreams! 🌸</h1>
+                <p>Discover a world of delightful and charming products</p>
+                <a href="products.html" class="cta-button">Shop Now →</a>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <i class="fas fa-truck"></i>
+                <h3>Free Shipping</h3>
+                <p>On orders over $50</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-exchange-alt"></i>
+                <h3>Easy Returns</h3>
+                <p>30-day hassle-free returns</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-star"></i>
+                <h3>Quality Products</h3>
+                <p>Hand-picked for you</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-headset"></i>
+                <h3>24/7 Support</h3>
+                <p>We're always here to help</p>
+            </div>
+        </section>
+
+        <section class="featured-products">
+            <h2>Our Latest Collection</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="https://picsum.photos/300/200?random=1" alt="Dreamy Mug">
+                    <div class="product-info">
+                        <h3>Dreamy Mug</h3>
+                        <p class="price">$12.99</p>
+                        <button class="add-to-cart-btn" data-id="mug1" data-name="Dreamy Mug" data-price="12.99">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://picsum.photos/300/200?random=2" alt="Cloud Pillow">
+                    <div class="product-info">
+                        <h3>Cloud Pillow</h3>
+                        <p class="price">$25.50</p>
+                        <button class="add-to-cart-btn" data-id="pillow1" data-name="Cloud Pillow" data-price="25.50">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://picsum.photos/300/200?random=3" alt="Rainbow Notebook">
+                    <div class="product-info">
+                        <h3>Rainbow Notebook</h3>
+                        <p class="price">$8.00</p>
+                        <button class="add-to-cart-btn" data-id="notebook1" data-name="Rainbow Notebook" data-price="8.00">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://picsum.photos/300/200?random=4" alt="Sparkle Pen">
+                    <div class="product-info">
+                        <h3>Sparkle Pen</h3>
+                        <p class="price">$5.99</p>
+                        <button class="add-to-cart-btn" data-id="pen1" data-name="Sparkle Pen" data-price="5.99">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            <a href="products.html" class="view-all-btn">View All Products</a>
+        </section>
+
+        <section class="about-section">
+            <h2>About Us</h2>
+            <p>Pastel Dreams was born from a love for all things cute, charming, and colorful. We believe in spreading joy through carefully curated products that add a touch of magic to your everyday life. From cozy home decor to delightful stationery, we're here to help you create your own little slice of pastel paradise.</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-pinterest"></i></a>
+        </div>
+        <p>&copy; 2026 Pastel Dreams. All rights reserved.</p>
+        <p>
+            <a href="index.html">Home</a> |
+            <a href="products.html">Products</a> |
+            <a href="cart.html">Cart</a> |
+            <a href="login.html">Login</a>
+        </p>
+    </footer>
+
+    <div id="chat-bubble" class="chatbot-bubble">💬</div>
+    <div id="chatbot-box" class="chatbot-box">
+        <div class="chatbot-header">
+            <span>Chat with Us!</span>
+            <span id="chatbot-close">✖</span>
+        </div>
+        <div id="chatbot-messages" class="chatbot-messages"></div>
+        <div class="chatbot-input-area">
+            <input type="text" id="chatbot-input" placeholder="Type your message...">
+            <button id="chatbot-send">Send</button>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script>
+        // Shared cart using localStorage
+        let cart = JSON.parse(localStorage.getItem('pastelCart')) || [];
+
+        function saveCart() {
+            localStorage.setItem('pastelCart', JSON.stringify(cart));
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            const total = cart.reduce((s, i) => s + i.qty, 0);
+            const el = document.getElementById('cart-count');
+            if (el) {
+                el.textContent = total;
+                el.style.background = total > 0 ? '#90EE90' : '#FFD1DC';
+            }
+        }
+
+        function addToCart(id, name, price, img) {
+            const ex = cart.find(i => i.id === id);
+            if (ex) {
+                ex.qty++;
+            } else {
+                cart.push({ id, name, price, qty: 1, img: img || `https://picsum.photos/80/80?random=${id}` });
+            }
+            saveCart();
+            showToast('✓ ' + name + ' added to cart!');
+        }
+
+        function showToast(msg, type = 'success') {
+            const toastContainer = document.getElementById('toast-container');
+            const t = document.createElement('div');
+            t.textContent = msg;
+            t.className = 'toast';
+            if (type === 'error') {
+                t.classList.add('error');
+            }
+            toastContainer.appendChild(t);
+            setTimeout(() => {
+                t.classList.add('show');
+            }, 10); // Small delay to allow element to be added before transition
+            setTimeout(() => {
+                t.classList.remove('show');
+                t.addEventListener('transitionend', () => t.remove());
+            }, 2500);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartCount();
+
+            // Mark active nav link
+            const page = location.pathname.split('/').pop() || 'index.html';
+            document.querySelectorAll('nav a').forEach(a => {
+                if (a.getAttribute('href') === page) {
+                    a.classList.add('active');
+                } else {
+                    a.classList.remove('active');
+                }
+            });
+
+            // Add to cart buttons
+            document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault(); e.stopPropagation();
+                    const card = this.closest('.product-card');
+                    const name = card?.querySelector('h3')?.textContent || 'Item';
+                    const priceText = card?.querySelector('.price')?.textContent || '$9.99';
+                    const price = parseFloat(priceText.replace('$',''));
+                    const id = this.dataset.id || name.replace(/\s/g,'').toLowerCase();
+                    const img = card?.querySelector('img')?.src;
+                    addToCart(id, name, price, img);
+                    // Temporary button feedback
+                    const originalText = this.textContent;
+                    const originalBg = this.style.background;
+                    this.textContent = '✓ Added!';
+                    this.style.background = '#8fbc8f';
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.style.background = originalBg;
+                    }, 1800);
+                });
+            });
+
+            // Chatbot Widget
+            const chatBubble  = document.getElementById('chat-bubble');
+            const chatBox     = document.getElementById('chatbot-box');
+            const chatClose   = document.getElementById('chatbot-close');
+            const chatSend    = document.getElementById('chatbot-send');
+            const chatInput   = document.getElementById('chatbot-input');
+            const chatMsgs    = document.getElementById('chatbot-messages');
+
+            if (chatBubble) chatBubble.addEventListener('click', () => {
+                chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
+                if (chatBox.style.display === 'flex') {
+                    chatInput.focus();
+                }
+            });
+            if (chatClose)  chatClose.addEventListener('click',  () => chatBox.style.display = 'none');
+            if (chatSend)   chatSend.addEventListener('click', sendChat);
+            if (chatInput)  chatInput.addEventListener('keypress', e => { if(e.key === 'Enter') sendChat(); });
+
+            function sendChat() {
+                const msg = chatInput?.value.trim();
+                if (!msg) return;
+                addChatMsg('user', msg);
+                chatInput.value = '';
+                setTimeout(() => addChatMsg('bot', getBotReply(msg)), 700);
+                chatMsgs.scrollTop = chatMsgs.scrollHeight; // Auto-scroll
+            }
+
+            function addChatMsg(who, text) {
+                const d = document.createElement('div');
+                d.textContent = text;
+                d.style.cssText = `margin-bottom:10px;padding:10px 14px;border-radius:18px;max-width:80%;font-size:0.9rem;word-wrap:break-word;`;
+                if (who === 'user') {
+                    d.style.cssText += `background:var(--green);margin-left:auto;color:var(--text);border-bottom-right-radius:4px;`;
+                } else {
+                    d.style.cssText += `background:var(--purple);margin-right:auto;color:var(--text);border-bottom-left-radius:4px;`;
+                }
+                if (chatMsgs) {
+                    chatMsgs.appendChild(d);
+                    chatMsgs.scrollTop = chatMsgs.scrollHeight;
+                }
+            }
+
+            function getBotReply(msg) {
+                const m = msg.toLowerCase();
+                if (m.includes('hi') || m.includes('hello') || m.includes('hey')) return 'Hello! 🌸 Welcome to Pastel Dreams! How can I help you today?';
+                if (m.includes('product') || m.includes('shop') || m.includes('buy')) return 'We have beautiful mugs, pillows, notebooks and more! Visit our Products page to see everything! 🛍';
+                if (m.includes('cart') || m.includes('bag')) return 'Click the 🛒 Cart link in the top navbar to view your cart!';
+                if (m.includes('promo') || m.includes('discount') || m.includes('code')) return 'Use code DREAM10 at checkout for 10% off your order! 🎉';
+                if (m.includes('ship') || m.includes('deliver')) return 'We offer FREE shipping on orders over $50! Standard shipping is just $5.99 💕';
+                if (m.includes('login') || m.includes('account')) return 'Click the Login button in the navbar. Use OTP code 123456 for demo!';
+                if (m.includes('return') || m.includes('refund')) return 'We have a hassle-free 30-day return policy. Contact us at support@pasteldreams.com!';
+                return "Thanks for your message! 💕 Our team will get back to you soon. Is there anything else I can help with?";
+            }
+        });
+    </script>
+</body>
+</html>
